@@ -10,7 +10,11 @@ pub fn SummaryConfig::new(
   tolerated_error_bp : Int,
 ) -> SummaryConfig {
   {
-    max_samples: if max_samples > 0 { max_samples } else { 1 },
+    max_samples: if max_samples > 0 {
+      max_samples
+    } else {
+      1
+    },
     tolerated_error_bp: clamp_percentile_bp(tolerated_error_bp),
   }
 }

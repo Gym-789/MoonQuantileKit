@@ -16,10 +16,9 @@ test "sample summary reports min and max" {
 
 ///|
 test "percentile helpers use basis points" {
-  let summary = SampleSummary::from_array(
-    "latency",
-    [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-  )
+  let summary = SampleSummary::from_array("latency", [
+    10, 20, 30, 40, 50, 60, 70, 80, 90, 100,
+  ])
   assert_eq(summary.p50(), 60)
   assert_eq(summary.p90(), 100)
   assert_eq(summary.percentile(0), 10)
@@ -28,8 +27,7 @@ test "percentile helpers use basis points" {
 
 ///|
 test "snapshot exposes common latency percentiles" {
-  let snapshot = SampleSummary::from_array("search", [5, 8, 13, 21, 34])
-    .snapshot()
+  let snapshot = SampleSummary::from_array("search", [5, 8, 13, 21, 34]).snapshot()
   assert_eq(snapshot.name, "search")
   assert_eq(snapshot.count, 5)
   assert_eq(snapshot.min_ms, 5)
@@ -57,7 +55,9 @@ test "summary config clamps invalid inputs" {
 
 ///|
 test "snapshot exports stable json fields" {
-  let json = SampleSummary::from_array("checkout", [20, 40, 60]).snapshot().to_json()
+  let json = SampleSummary::from_array("checkout", [20, 40, 60])
+    .snapshot()
+    .to_json()
   assert_true(json.contains("\"name\":\"checkout\""))
   assert_true(json.contains("\"p95_ms\":60"))
 }

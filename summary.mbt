@@ -22,10 +22,7 @@ pub fn SampleSummary::from_array(
 }
 
 ///|
-pub fn SampleSummary::add(
-  self : SampleSummary,
-  value : Int,
-) -> SampleSummary {
+pub fn SampleSummary::add(self : SampleSummary, value : Int) -> SampleSummary {
   let mut inserted = false
   let output : Array[Int] = []
   for current in self.values {

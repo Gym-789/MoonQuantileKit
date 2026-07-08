@@ -15,11 +15,11 @@ The initial implementation provides exact and bounded primitives first:
 
 ## Example
 
-```moonbit
-let summary = SampleSummary::new("checkout")
-  .add(12)
-  .add(35)
-  .add(80)
+```moonbit nocheck
+///|
+let summary = SampleSummary::new("checkout").add(12).add(35).add(80)
+
+///|
 let p95 = summary.percentile(9500)
 ```
 

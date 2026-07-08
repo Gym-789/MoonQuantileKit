@@ -1,9 +1,8 @@
 ///|
 fn main {
-  let summary = @quantile.SampleSummary::from_array(
-    "demo-latency",
-    [12, 18, 35, 80, 120, 180, 210, 260, 300, 450],
-  )
+  let summary = @quantile.SampleSummary::from_array("demo-latency", [
+    12, 18, 35, 80, 120, 180, 210, 260, 300, 450,
+  ])
   let snapshot = summary.snapshot()
   println("MoonQuantileKit demo")
   println("count: \{snapshot.count}")
