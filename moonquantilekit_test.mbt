@@ -54,3 +54,10 @@ test "summary config clamps invalid inputs" {
   assert_eq(config.tolerated_error_bp, 10000)
   assert_true(SummaryConfig::exact().is_exact())
 }
+
+///|
+test "snapshot exports stable json fields" {
+  let json = SampleSummary::from_array("checkout", [20, 40, 60]).snapshot().to_json()
+  assert_true(json.contains("\"name\":\"checkout\""))
+  assert_true(json.contains("\"p95_ms\":60"))
+}
