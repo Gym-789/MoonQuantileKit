@@ -14,9 +14,9 @@ pub fn SampleSummary::from_array(
   name : String,
   samples : Array[Int],
 ) -> SampleSummary {
-  let summary = SampleSummary::new(name)
+  let mut summary = SampleSummary::new(name)
   for sample in samples {
-    summary.add(sample) |> ignore
+    summary = summary.add(sample)
   }
   summary
 }
@@ -29,13 +29,13 @@ pub fn SampleSummary::add(
   let mut inserted = false
   let output : Array[Int] = []
   for current in self.values {
-    if not(inserted) && value <= current {
+    if !inserted && value <= current {
       output.push(value)
       inserted = true
     }
     output.push(current)
   }
-  if not(inserted) {
+  if !inserted {
     output.push(value)
   }
   { name: self.name, values: output }

@@ -1,0 +1,7 @@
+import {
+  "Gym-789/moonquantilekit" @quantile,
+}
+
+options(
+  "is-main": true,
+)
