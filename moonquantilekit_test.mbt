@@ -36,3 +36,13 @@ test "snapshot exposes common latency percentiles" {
   assert_eq(snapshot.max_ms, 34)
   assert_eq(snapshot.p95_ms, 34)
 }
+
+///|
+test "bucketize assigns samples to first matching boundary" {
+  let summary = SampleSummary::from_array("rpc", [3, 7, 12, 30, 80])
+  let buckets = summary.buckets([10, 50, 100])
+  assert_eq(buckets.length(), 3)
+  assert_eq(buckets[0].count, 2)
+  assert_eq(buckets[1].count, 2)
+  assert_eq(buckets[2].count, 1)
+}
