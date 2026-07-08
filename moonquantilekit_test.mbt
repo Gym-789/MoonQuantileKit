@@ -13,3 +13,15 @@ test "sample summary reports min and max" {
   assert_eq(summary.min(), 7)
   assert_eq(summary.max(), 99)
 }
+
+///|
+test "percentile helpers use basis points" {
+  let summary = SampleSummary::from_array(
+    "latency",
+    [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+  )
+  assert_eq(summary.p50(), 60)
+  assert_eq(summary.p90(), 100)
+  assert_eq(summary.percentile(0), 10)
+  assert_eq(summary.percentile(10000), 100)
+}
