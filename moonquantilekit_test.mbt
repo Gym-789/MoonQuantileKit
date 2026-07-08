@@ -46,3 +46,11 @@ test "bucketize assigns samples to first matching boundary" {
   assert_eq(buckets[1].count, 2)
   assert_eq(buckets[2].count, 1)
 }
+
+///|
+test "summary config clamps invalid inputs" {
+  let config = SummaryConfig::new(0, 12000)
+  assert_eq(config.max_samples, 1)
+  assert_eq(config.tolerated_error_bp, 10000)
+  assert_true(SummaryConfig::exact().is_exact())
+}
