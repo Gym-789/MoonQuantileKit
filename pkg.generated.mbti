@@ -1,0 +1,67 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "Gym-789/moonquantilekit"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn bucketize(Array[Int], Array[Int]) -> Array[LatencyBucket]
+
+pub fn clamp_percentile_bp(Int) -> Int
+
+// Errors
+
+// Types and methods
+pub(all) struct LatencyBucket {
+  upper_ms : Int
+  count : Int
+} derive(Eq, @debug.Debug)
+pub fn LatencyBucket::new(Int) -> Self
+pub fn LatencyBucket::to_json(Self) -> String
+
+pub(all) struct QuantileSnapshot {
+  name : String
+  count : Int
+  min_ms : Int
+  max_ms : Int
+  p50_ms : Int
+  p90_ms : Int
+  p95_ms : Int
+  p99_ms : Int
+} derive(Eq, @debug.Debug)
+pub fn QuantileSnapshot::empty(Self) -> Bool
+pub fn QuantileSnapshot::to_json(Self) -> String
+
+pub(all) struct SampleSummary {
+  name : String
+  values : Array[Int]
+} derive(Eq, @debug.Debug)
+pub fn SampleSummary::add(Self, Int) -> Self
+pub fn SampleSummary::buckets(Self, Array[Int]) -> Array[LatencyBucket]
+pub fn SampleSummary::count(Self) -> Int
+pub fn SampleSummary::from_array(String, Array[Int]) -> Self
+pub fn SampleSummary::is_empty(Self) -> Bool
+pub fn SampleSummary::max(Self) -> Int
+pub fn SampleSummary::min(Self) -> Int
+pub fn SampleSummary::new(String) -> Self
+pub fn SampleSummary::p50(Self) -> Int
+pub fn SampleSummary::p90(Self) -> Int
+pub fn SampleSummary::p95(Self) -> Int
+pub fn SampleSummary::p99(Self) -> Int
+pub fn SampleSummary::percentile(Self, Int) -> Int
+pub fn SampleSummary::snapshot(Self) -> QuantileSnapshot
+
+pub(all) struct SummaryConfig {
+  max_samples : Int
+  tolerated_error_bp : Int
+} derive(Eq, @debug.Debug)
+pub fn SummaryConfig::default() -> Self
+pub fn SummaryConfig::exact() -> Self
+pub fn SummaryConfig::is_exact(Self) -> Bool
+pub fn SummaryConfig::new(Int, Int) -> Self
+
+// Type aliases
+
+// Traits
+
