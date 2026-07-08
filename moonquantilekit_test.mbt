@@ -25,3 +25,14 @@ test "percentile helpers use basis points" {
   assert_eq(summary.percentile(0), 10)
   assert_eq(summary.percentile(10000), 100)
 }
+
+///|
+test "snapshot exposes common latency percentiles" {
+  let snapshot = SampleSummary::from_array("search", [5, 8, 13, 21, 34])
+    .snapshot()
+  assert_eq(snapshot.name, "search")
+  assert_eq(snapshot.count, 5)
+  assert_eq(snapshot.min_ms, 5)
+  assert_eq(snapshot.max_ms, 34)
+  assert_eq(snapshot.p95_ms, 34)
+}
