@@ -54,6 +54,38 @@ test "summary config clamps invalid inputs" {
 }
 
 ///|
+test "tolerated error changes bounded centroid budget" {
+  assert_eq(SummaryConfig::new(10, 0).target_centroids(), 10)
+  assert_eq(SummaryConfig::new(10, 5000).target_centroids(), 2)
+  assert_eq(SummaryConfig::new(3, 1).target_centroids(), 3)
+}
+
+///|
+test "bounded summary retains a fixed memory budget" {
+  let config = SummaryConfig::new(10, 5000)
+  let summary = BoundedSummary::new("api", config)
+    .add(10)
+    .add(20)
+    .add(30)
+    .add(40)
+    .add(50)
+  assert_eq(summary.count(), 5)
+  assert_eq(summary.capacity(), 2)
+  assert_true(summary.stored_centroids() <= 2)
+}
+
+///|
+test "bounded summary merge preserves count and capacity" {
+  let config = SummaryConfig::new(4, 2500)
+  let left = BoundedSummary::new("latency", config).add(10).add(20).add(30)
+  let right = BoundedSummary::new("latency", config).add(40).add(50).add(60)
+  let merged = left.merge(right)
+  assert_eq(merged.count(), 6)
+  assert_true(merged.stored_centroids() <= merged.capacity())
+  assert_true(merged.percentile(10000) >= merged.percentile(0))
+}
+
+///|
 test "snapshot exports stable json fields" {
   let json = SampleSummary::from_array("checkout", [20, 40, 60])
     .snapshot()

@@ -33,3 +33,23 @@ pub fn SummaryConfig::exact() -> SummaryConfig {
 pub fn SummaryConfig::is_exact(self : SummaryConfig) -> Bool {
   self.tolerated_error_bp == 0
 }
+
+/// Returns the number of centroids retained by a bounded summary. A smaller
+/// tolerated error keeps more centroids; `max_samples` is always a hard cap.
+/// This is a deterministic compression budget, not a statistical guarantee.
+
+///|
+pub fn SummaryConfig::target_centroids(self : SummaryConfig) -> Int {
+  if self.tolerated_error_bp == 0 {
+    self.max_samples
+  } else {
+    let requested = 10000 / self.tolerated_error_bp
+    if requested < 1 {
+      1
+    } else if requested < self.max_samples {
+      requested
+    } else {
+      self.max_samples
+    }
+  }
+}

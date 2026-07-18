@@ -13,12 +13,32 @@ pub fn clamp_percentile_bp(Int) -> Int
 // Errors
 
 // Types and methods
+pub(all) struct BoundedSummary {
+  name : String
+  config : SummaryConfig
+  centroids : Array[QuantileCentroid]
+  sample_count : Int
+} derive(Eq, @debug.Debug)
+pub fn BoundedSummary::add(Self, Int) -> Self
+pub fn BoundedSummary::capacity(Self) -> Int
+pub fn BoundedSummary::count(Self) -> Int
+pub fn BoundedSummary::merge(Self, Self) -> Self
+pub fn BoundedSummary::new(String, SummaryConfig) -> Self
+pub fn BoundedSummary::p95(Self) -> Int
+pub fn BoundedSummary::percentile(Self, Int) -> Int
+pub fn BoundedSummary::stored_centroids(Self) -> Int
+
 pub(all) struct LatencyBucket {
   upper_ms : Int
   count : Int
 } derive(Eq, @debug.Debug)
 pub fn LatencyBucket::new(Int) -> Self
 pub fn LatencyBucket::to_json(Self) -> String
+
+pub(all) struct QuantileCentroid {
+  mean_ms : Int
+  count : Int
+} derive(Eq, @debug.Debug)
 
 pub(all) struct QuantileSnapshot {
   name : String
@@ -60,6 +80,7 @@ pub fn SummaryConfig::default() -> Self
 pub fn SummaryConfig::exact() -> Self
 pub fn SummaryConfig::is_exact(Self) -> Bool
 pub fn SummaryConfig::new(Int, Int) -> Self
+pub fn SummaryConfig::target_centroids(Self) -> Int
 
 // Type aliases
 
